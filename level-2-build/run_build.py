@@ -6,13 +6,16 @@ Mixture B: the same records through the Learn pipeline stages.
 Both train the same Naive Bayes model; both are measured on the
 same held-out synthetic eval set.
 """
-import json, os, sys
+import json
+import os
+import sys
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), "level-1-learn"))
-from generator import SEED, generate_eval, generate_raw
-from model import ALPHA, NaiveBayes, evaluate
-from pipeline import decontaminate, exact_dedup, near_dedup, quality_filter
+from generator import SEED, generate_eval, generate_raw  # noqa: E402
+from model import ALPHA, NaiveBayes, evaluate  # noqa: E402
+from pipeline import decontaminate, exact_dedup, near_dedup, quality_filter  # noqa: E402
 
 
 def _counts(records):

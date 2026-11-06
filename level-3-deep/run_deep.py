@@ -5,16 +5,20 @@ Synthetic data only, labelled synthetic. Decontamination of the
 and the reusable quality rule set applied to the Build set
 (536 records, by import), the Deep set (78), and clean subsets.
 """
-import json, os, sys
+import json
+import os
+import sys
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "level-1-learn"))
 sys.path.insert(0, os.path.join(ROOT, "level-2-build"))
-from deep_data import BENCHMARK_NAME, BENCHMARK_PROMPTS, generate_deep
-from decontaminate import NGRAM_MIN_SHARED, NGRAM_N, benchmark_ngrams, decontaminate_levels
-from generator import generate_raw as generate_build_raw
-from quality_rules import RULESET, apply_rules
+from decontaminate import NGRAM_MIN_SHARED, NGRAM_N, benchmark_ngrams, decontaminate_levels  # noqa: E402
+from deep_data import BENCHMARK_NAME, BENCHMARK_PROMPTS, generate_deep  # noqa: E402
+from generator import generate_raw as generate_build_raw  # noqa: E402
+from quality_rules import RULESET, apply_rules  # noqa: E402
+
 
 def run_deep():
     deep = generate_deep()
@@ -31,7 +35,8 @@ def run_deep():
     build_clean_rules = apply_rules(build_clean)
     deep_clean_rules = apply_rules(deep_clean)
     results = {
-        "dataset_label": "synthetic only, generated and hand listed by this project, no real data, no external benchmark items downloaded or claimed",
+        "dataset_label": ("synthetic only, generated and hand listed by this project, no real data, "
+                          "no external benchmark items downloaded or claimed"),
         "benchmark_name": BENCHMARK_NAME,
         "benchmark_count": len(BENCHMARK_PROMPTS),
         "benchmark_prompts": BENCHMARK_PROMPTS,
