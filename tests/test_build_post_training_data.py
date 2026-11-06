@@ -1,12 +1,15 @@
 """Hand-computed tests for P28 Build. Oracles are in BUILD-SPEC.md."""
-import math, os, sys
+import math
+import os
+import sys
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "level-2-build"))
 sys.path.insert(0, os.path.join(ROOT, "level-1-learn"))
-from generator import generate_eval, generate_raw
-from model import NaiveBayes
-from pipeline import jaccard, token_set
-from run_build import run_build
+from generator import generate_raw  # noqa: E402
+from model import NaiveBayes  # noqa: E402
+from pipeline import jaccard, token_set  # noqa: E402
+from run_build import run_build  # noqa: E402
 
 RESULTS, RAW, EVAL = run_build()
 BY_ID = {r["id"]: r for r in RAW}
@@ -24,7 +27,8 @@ def test_generation_counts_and_labels():
         "code": 20, "factual": 20, "language": 20, "writing": 20}
 
 def test_near_dup_jaccard_oracle():
-    src = BY_ID["s025"]; dup = BY_ID["n001"]
+    src = BY_ID["s025"]
+    dup = BY_ID["n001"]
     v = jaccard(token_set(src["instruction"]), token_set(dup["instruction"]))
     assert abs(v - (5 / 6)) < 1e-12
 
@@ -86,5 +90,7 @@ def test_determinism_in_process():
 
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
-    for fn in fns: fn(); print("PASS", fn.__name__)
+    for fn in fns:
+        fn()
+        print("PASS", fn.__name__)
     print(len(fns), "Build tests passed")

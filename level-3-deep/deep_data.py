@@ -5,7 +5,9 @@ sequential topics, and labelled synthetic. No real data is used.
 No external benchmark items were downloaded or claimed.
 Design and oracles: DEEP-SPEC.md, written before this code.
 """
-import os, sys
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "level-1-learn"))
 
 SOURCE = "synthetic-deep-p28"
@@ -57,7 +59,8 @@ def generate_deep():
             verb = VERBS[cat][round_idx % 2]
             rec = _rec(f"c{seq:03d}", f"{verb} {topic} in simple terms",
                        _clean_output(cat, topic), cat, "clean")
-            clean.append(rec); records.append(rec)
+            clean.append(rec)
+            records.append(rec)
     bench_out = "benchmark style answer number {} with extra detail"
     # Exact e01-e06: verbatim B01-B06.
     for i in range(6):
@@ -92,8 +95,10 @@ def generate_deep():
     # Sub-threshold s01-s04: at most a 3-token overlap, no 4-gram.
     sub = [
         ("s01", "what is the best route to the lake", "the best route follows the river path past the old bridge"),
-        ("s02", "state the theorem clearly for students today", "the theorem is stated clearly with a worked example for students"),
-        ("s03", "explain how photosynthesis helps green plants grow", "sunlight and water help green plants make food and grow"),
+        ("s02", "state the theorem clearly for students today",
+         "the theorem is stated clearly with a worked example for students"),
+        ("s03", "explain how photosynthesis helps green plants grow",
+         "sunlight and water help green plants make food and grow"),
         ("s04", "write a haiku for autumn mornings today", "cool air and gold light open the quiet morning fields"),
     ]
     for rid, ins, out in sub:

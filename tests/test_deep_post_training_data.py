@@ -1,13 +1,15 @@
 """Hand-computed tests for P28 Deep. Oracles are in DEEP-SPEC.md."""
-import os, sys
+import os
+import sys
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "level-3-deep"))
 sys.path.insert(0, os.path.join(ROOT, "level-1-learn"))
 sys.path.insert(0, os.path.join(ROOT, "level-2-build"))
-from deep_data import BENCHMARK_PROMPTS, generate_deep
-from decontaminate import canonical, decontaminate_levels, word_ngrams, benchmark_ngrams
-from quality_rules import RULESET, apply_rules
-from run_deep import run_deep
+from decontaminate import benchmark_ngrams, canonical, decontaminate_levels, word_ngrams  # noqa: E402
+from deep_data import BENCHMARK_PROMPTS  # noqa: E402
+from quality_rules import RULESET  # noqa: E402
+from run_deep import run_deep  # noqa: E402
 
 RESULTS, DEEP, BUILD = run_deep()
 BY_ID = {r["id"]: r for r in DEEP}
@@ -19,7 +21,8 @@ def test_benchmark_named_and_synthetic():
     assert len(benchmark_ngrams(BENCHMARK_PROMPTS)) == 45
     assert len(DEEP) == 78 and all(r["synthetic"] is True for r in DEEP)
     # q13 and q14 keep synthetic true; they fire R06 for an empty source or license.
-    assert RESULTS["deep_group_counts"] == {"clean": 36, "exact_contaminated": 6, "ngram_contaminated": 8, "normalized_contaminated": 6, "quality_probe": 18, "subthreshold": 4}
+    assert RESULTS["deep_group_counts"] == {"clean": 36, "exact_contaminated": 6, "ngram_contaminated": 8,
+                                            "normalized_contaminated": 6, "quality_probe": 18, "subthreshold": 4}
 
 def test_canonical_and_ngram_oracles():
     assert canonical("LIST  three primary colors and their names!") == BENCHMARK_PROMPTS[6]
@@ -52,12 +55,14 @@ def test_ruleset_versioned():
 
 def test_rule_counts_build():
     assert RESULTS["build_candidate_count"] == 536
-    assert RESULTS["build_rules"]["counts"] == {"R01": 0, "R02": 288, "R03": 288, "R04": 0, "R05": 0, "R06": 0, "R07": 24, "R08": 0}
+    assert RESULTS["build_rules"]["counts"] == {"R01": 0, "R02": 288, "R03": 288, "R04": 0,
+                                                "R05": 0, "R06": 0, "R07": 24, "R08": 0}
     assert RESULTS["build_rules"]["total_fire_events"] == 600
     assert RESULTS["build_rules"]["ids"]["R07"] == [f"d{i:03d}" for i in range(1, 25)]
 
 def test_rule_counts_deep():
-    assert RESULTS["deep_rules"]["counts"] == {"R01": 3, "R02": 3, "R03": 3, "R04": 2, "R05": 2, "R06": 2, "R07": 2, "R08": 2}
+    assert RESULTS["deep_rules"]["counts"] == {"R01": 3, "R02": 3, "R03": 3, "R04": 2,
+                                               "R05": 2, "R06": 2, "R07": 2, "R08": 2}
     assert RESULTS["deep_rules"]["total_fire_events"] == 19
     assert RESULTS["deep_rules"]["ids"]["R01"] == ["q01", "q02", "q03"]
     assert RESULTS["deep_rules"]["ids"]["R03"] == ["q05", "q07", "q08"]
@@ -78,5 +83,7 @@ def test_determinism_in_process():
 
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
-    for fn in fns: fn(); print("PASS", fn.__name__)
+    for fn in fns:
+        fn()
+        print("PASS", fn.__name__)
     print(len(fns), "Deep tests passed")
