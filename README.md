@@ -2,7 +2,7 @@
 
 Post-training data engineering: curation, dedup, decontamination, synthetic data with filtering, data mixtures with measured downstream effect.
 
-Status: Learn DONE (v0.1, 2026-11-05). Build DONE (v0.5, 2026-11-05). Deep not started.
+Status: Learn DONE (v0.1, 2026-11-05). Build DONE (v0.5, 2026-11-05). Deep DONE (v1.0, 2026-11-05).
 Project: P28. Fleet node: Dell R610. Wave: Waves 6 to 7.
 
 ## Start here
@@ -38,7 +38,22 @@ synthetic eval set of 80. Measured tables and grade:
 level-2-build/README.md. Grade: 8,800 of 10,000, deductions
 named there.
 - Level 2, Build: a real working system other people can run. DONE in v0.5.
-- Level 3, Deep: benchmarks, optimization, evaluation, hard cases.
+- Level 3, Deep: benchmarks, optimization, evaluation, hard cases. DONE in v1.0.
+
+## Deep (Level 3, DONE v1.0, 2026-11-05)
+
+A decontamination report against the named synthetic benchmark
+SynthBench-P28-12 (12 prompts, no external benchmark items
+used or claimed) over 78 synthetic candidates: exact removed
+6, normalized exact removed 6 more, word 4-gram overlap
+removed 8 more, leaving 58, so exact only caught 6 of 20
+contaminated and the 4-gram level caught 20 of 20. Plus the
+reusable quality rule set v1.0.0 (8 rules in rules.json):
+600 fire events on the Build set (536 records), 19 on the
+Deep set, and 0 on clean records in both sets. Measured
+tables and grade: level-3-deep/README.md. Grade: 8,300 of
+10,000, deductions named there. The v1.1 backlog is in
+ROADMAP.md.
 
 ## Benchmarks
 
@@ -50,6 +65,9 @@ named there.
 | Build filtering (synthetic, 536 raw) | 512 after exact dedup, 482 after near dedup, 194 after quality, 192 after decontamination |
 | Build mixture study (held-out synthetic eval, 80) | Mixture A raw accuracy 0.0 (0 of 80), mixture B filtered accuracy 1.0 (80 of 80) |
 | Build tests | 8 hand-computed Build tests, all passing (21 tests total with Learn and smoke) |
+| Deep decontamination (synthetic, SynthBench-P28-12, 78 candidates) | 72 after exact, 66 after normalized exact, 58 after 4-gram overlap |
+| Deep quality rules v1.0.0 (8 rules) | Build set 600 fire events, Deep set 19, clean records 0 in both sets |
+| Deep tests | 10 hand-computed Deep tests, all passing (31 checks total with Learn, Build, and smoke) |
 
 ## Novelty
 
