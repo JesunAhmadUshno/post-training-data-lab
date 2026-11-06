@@ -1,0 +1,15 @@
+{
+ "name": "post-training-data-quality-rules",
+ "version": "1.0.0",
+ "tokenizer": "lowercase, runs of a to z and 0 to 9 (Learn tokenizer)",
+ "rules": [
+  {"id": "R01", "name": "short_instruction", "field": "instruction", "condition": "instruction token count below min_instruction_tokens", "min_instruction_tokens": 3},
+  {"id": "R02", "name": "short_output", "field": "output", "condition": "output token count below min_output_tokens", "min_output_tokens": 2},
+  {"id": "R03", "name": "placeholder_output", "field": "output", "condition": "at least 1 output token and every output token in placeholder_tokens", "placeholder_tokens": ["unknown", "todo", "tbd"]},
+  {"id": "R04", "name": "url_in_instruction", "field": "instruction", "condition": "instruction tokens contain any of url_tokens", "url_tokens": ["http", "https", "www"]},
+  {"id": "R05", "name": "repeated_token_dominance", "field": "output", "condition": "output at least dominance_min_tokens and most common output token share over dominance_threshold", "dominance_min_tokens": 4, "dominance_threshold": 0.5},
+  {"id": "R06", "name": "missing_provenance", "field": "source, license, synthetic", "condition": "source empty or license empty or synthetic flag is not true"},
+  {"id": "R07", "name": "exact_duplicate_in_set", "field": "instruction plus output", "condition": "Learn dedup_key already seen earlier in set order"},
+  {"id": "R08", "name": "overlong_instruction", "field": "instruction", "condition": "instruction token count over max_instruction_tokens", "max_instruction_tokens": 12}
+ ]
+}
