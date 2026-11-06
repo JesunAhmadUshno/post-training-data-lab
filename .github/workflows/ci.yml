@@ -10,3 +10,8 @@ jobs:
           python-version: "3.12"
       - name: scaffold smoke test
         run: python tests/test_smoke.py
+      - name: learn, build, and deep tests
+        run: |
+          python tests/test_learn_post_training_data.py
+          python tests/test_build_post_training_data.py
+          python tests/test_deep_post_training_data.py
