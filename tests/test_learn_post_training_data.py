@@ -1,10 +1,25 @@
 """Hand-computed tests for P28 Learn. Oracles are in LEARN-SPEC.md."""
-import os, sys
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "level-1-learn"))
-from pipeline import (RAW_EXAMPLES, BENCHMARK_PROMPTS, tokens, jaccard,
-                      token_set, dedup_key, exact_dedup, near_dedup,
-                      quality_filter, decontaminate, to_sft, validate_sft,
-                      split_train_eval, leakage_counts, run_pipeline)
+from pipeline import (
+    BENCHMARK_PROMPTS,
+    RAW_EXAMPLES,
+    decontaminate,
+    dedup_key,
+    exact_dedup,
+    jaccard,
+    leakage_counts,
+    near_dedup,
+    quality_filter,
+    run_pipeline,
+    split_train_eval,
+    to_sft,
+    token_set,
+    tokens,
+    validate_sft,
+)
 
 R = run_pipeline()
 BY_ID = {r["id"]: r for r in RAW_EXAMPLES}
@@ -37,18 +52,22 @@ def test_near_dedup():
     assert removed == ["r04"] and len(kept2) == 18
 
 def test_quality():
-    kept, _ = exact_dedup(RAW_EXAMPLES); kept, _ = near_dedup(kept)
+    kept, _ = exact_dedup(RAW_EXAMPLES)
+    kept, _ = near_dedup(kept)
     kept2, removed = quality_filter(kept)
     assert removed == ["r05", "r06", "r07"] and len(kept2) == 15
 
 def test_decontamination():
     assert len(BENCHMARK_PROMPTS) == 2
-    kept, _ = exact_dedup(RAW_EXAMPLES); kept, _ = near_dedup(kept); kept, _ = quality_filter(kept)
+    kept, _ = exact_dedup(RAW_EXAMPLES)
+    kept, _ = near_dedup(kept)
+    kept, _ = quality_filter(kept)
     kept2, removed = decontaminate(kept)
     assert removed == ["r18"] and len(kept2) == 14
 
 def test_stage_counts_and_final_ids():
-    assert (R["raw_count"], R["after_exact_dedup"], R["after_near_dedup"], R["after_quality"], R["after_decontamination"]) == (20, 19, 18, 15, 14)
+    assert (R["raw_count"], R["after_exact_dedup"], R["after_near_dedup"],
+            R["after_quality"], R["after_decontamination"]) == (20, 19, 18, 15, 14)
     assert R["final_ids"] == ["r01","r03","r08","r09","r10","r11","r12","r13","r14","r15","r16","r17","r19","r20"]
 
 def test_token_sums_and_means():
@@ -61,7 +80,8 @@ def test_sft_conversion_and_schema():
     assert R["sft_valid"] == 14
     r14 = [s for s in sft if s["id"] == "r14"][0]
     assert r14["messages"][1]["content"] == "How do you make a sandwich\nIngredients: cheese, lettuce, bread."
-    bad = {"id": "x", "messages": [{"role": "system", "content": "s"}, {"role": "user", "content": "u"}], "source": "s", "license": "l"}
+    bad = {"id": "x", "messages": [{"role": "system", "content": "s"},
+                                   {"role": "user", "content": "u"}], "source": "s", "license": "l"}
     assert not validate_sft(bad)
 
 def test_split_and_leakage():
@@ -77,5 +97,7 @@ def test_category_counts():
 
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
-    for fn in fns: fn(); print("PASS", fn.__name__)
+    for fn in fns:
+        fn()
+        print("PASS", fn.__name__)
     print(len(fns), "Learn tests passed")

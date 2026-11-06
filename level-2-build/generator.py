@@ -4,7 +4,10 @@ All records are synthetic, generated here, and labelled synthetic
 in every field that carries provenance. No real data is used.
 Design and hand-computed counts: BUILD-SPEC.md.
 """
-import os, random, sys
+import os
+import random
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "level-1-learn"))
 from pipeline import BENCHMARK_PROMPTS  # the 2 synthetic benchmark prompts
 

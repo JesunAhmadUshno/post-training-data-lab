@@ -4,7 +4,10 @@ Features are instruction tokens (Learn tokenizer). Out of vocabulary
 tokens are skipped. Alpha is 1.0. Ties break by first category in
 alphabetical order, so prediction is fully deterministic.
 """
-import math, os, sys
+import math
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "level-1-learn"))
 from pipeline import tokens
 

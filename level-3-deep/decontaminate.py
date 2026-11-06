@@ -4,7 +4,9 @@ Reuses the Learn tokenizer and dedup key by import.
 Levels: exact, normalized exact, word 4-gram overlap (threshold
 at least 1 shared 4-gram). Definitions: DEEP-SPEC.md.
 """
-import os, sys
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "level-1-learn"))
 from pipeline import tokens
 
@@ -44,7 +46,8 @@ def decontaminate_levels(records, prompts):
     for r in kept2:
         shared = sorted(word_ngrams(r["instruction"]) & bench_grams)
         if len(shared) >= NGRAM_MIN_SHARED:
-            removed_ngram.append(r["id"]); ngram_detail[r["id"]] = shared
+            removed_ngram.append(r["id"])
+            ngram_detail[r["id"]] = shared
         else:
             kept3.append(r)
     return {
