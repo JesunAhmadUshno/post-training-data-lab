@@ -1,0 +1,76 @@
+{
+ "after_decontamination": 14,
+ "after_exact_dedup": 19,
+ "after_near_dedup": 18,
+ "after_quality": 15,
+ "benchmark_prompts": 2,
+ "category_counts": {
+  "code": 2,
+  "factual": 9,
+  "language": 1,
+  "writing": 2
+ },
+ "dataset_label": "synthetic teaching set only, no real data",
+ "eval_count": 2,
+ "eval_ids": [
+  "r10",
+  "r15"
+ ],
+ "final_ids": [
+  "r01",
+  "r03",
+  "r08",
+  "r09",
+  "r10",
+  "r11",
+  "r12",
+  "r13",
+  "r14",
+  "r15",
+  "r16",
+  "r17",
+  "r19",
+  "r20"
+ ],
+ "instruction_token_mean": 5.928571,
+ "instruction_token_sum": 83,
+ "leakage_exact_overlap": 0,
+ "leakage_near_pairs": 0,
+ "license": "CC BY 4.0 (synthetic, self-authored)",
+ "near_dup_threshold": 0.8,
+ "output_token_mean": 9.071429,
+ "output_token_sum": 127,
+ "raw_count": 20,
+ "removed_contaminated": [
+  "r18"
+ ],
+ "removed_exact": [
+  "r02"
+ ],
+ "removed_near": [
+  "r04"
+ ],
+ "removed_quality": [
+  "r05",
+  "r06",
+  "r07"
+ ],
+ "sft_records": 14,
+ "sft_valid": 14,
+ "source": "synthetic-teaching-set",
+ "train_count": 12,
+ "train_ids": [
+  "r01",
+  "r03",
+  "r08",
+  "r09",
+  "r11",
+  "r12",
+  "r13",
+  "r14",
+  "r16",
+  "r17",
+  "r19",
+  "r20"
+ ]
+}
