@@ -2,7 +2,7 @@
 
 Post-training data engineering: curation, dedup, decontamination, synthetic data with filtering, data mixtures with measured downstream effect.
 
-Status: Learn DONE (v0.1, 2026-11-05). Build and Deep not started.
+Status: Learn DONE (v0.1, 2026-11-05). Build DONE (v0.5, 2026-11-05). Deep not started.
 Project: P28. Fleet node: Dell R610. Wave: Waves 6 to 7.
 
 ## Start here
@@ -26,7 +26,18 @@ synthetic benchmark prompts, validated SFT conversion, and a
 12 train and 2 eval split with 0 leakage pairs. Measured table,
 datasheet, and run steps: level-1-learn/README.md. Grade: 8,700
 of 10,000, deductions named there.
-- Level 2, Build: a real working system other people can run.
+## Build (Level 2, DONE v0.5, 2026-11-05)
+
+A seeded synthetic generator (536 records: 192 clean, 24 exact
+duplicates, 24 near duplicates, 288 low-quality poison, 8
+contaminated, all labelled synthetic, no real data), filtered
+through the Learn pipeline to 192 clean records, and a mixture
+study: the same Naive Bayes classifier scored accuracy 0.0 on
+the raw mix and 1.0 on the filtered mix over a held-out
+synthetic eval set of 80. Measured tables and grade:
+level-2-build/README.md. Grade: 8,800 of 10,000, deductions
+named there.
+- Level 2, Build: a real working system other people can run. DONE in v0.5.
 - Level 3, Deep: benchmarks, optimization, evaluation, hard cases.
 
 ## Benchmarks
@@ -36,6 +47,9 @@ of 10,000, deductions named there.
 | Learn pipeline stages (synthetic, 20 raw) | 19 after exact dedup, 18 after near dedup, 15 after quality, 14 after decontamination |
 | Learn split and leakage | 12 train, 2 eval (r10, r15), 0 exact and 0 near leakage pairs |
 | Learn tests | 12 hand-computed tests plus scaffold smoke, all passing |
+| Build filtering (synthetic, 536 raw) | 512 after exact dedup, 482 after near dedup, 194 after quality, 192 after decontamination |
+| Build mixture study (held-out synthetic eval, 80) | Mixture A raw accuracy 0.0 (0 of 80), mixture B filtered accuracy 1.0 (80 of 80) |
+| Build tests | 8 hand-computed Build tests, all passing (21 tests total with Learn and smoke) |
 
 ## Novelty
 
