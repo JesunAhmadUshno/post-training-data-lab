@@ -211,7 +211,7 @@ function LearnFunnel() {
     return best;
   };
   return (
-    <section id="learn" className="card window reveal" data-title="pipeline.py — Learn level, 20 teaching records">
+    <section id="learn" className="card window reveal" data-title={`pipeline.py — Learn level, ${learn.raw_count} teaching records`}>
       <div className="head">
         <div>
           <p className="eyebrow">Level 1 · Learn</p>
@@ -222,7 +222,7 @@ function LearnFunnel() {
       </div>
       <div className="grid2">
         <div>
-          <Funnel counts={counts} names={['Raw', ...stages.map((s) => s[1])]} total={learn.raw_count} label="Learn pipeline funnel from 20 raw records to 14 kept" highlight={pick + 1} onPick={(i) => i > 0 && setPick(i - 1)} />
+          <Funnel counts={counts} names={['Raw', ...stages.map((s) => s[1])]} total={learn.raw_count} label={`Learn pipeline funnel from ${learn.raw_count} raw records to ${learn.after_decontamination} kept`} highlight={pick + 1} onPick={(i) => i > 0 && setPick(i - 1)} />
           <div className="split">
             <div style={{ flex: learn.train_count }}><b>{learn.train_count}</b> train</div>
             <div style={{ flex: learn.eval_count }} className="ev"><b>{learn.eval_count}</b> eval</div>
@@ -288,7 +288,7 @@ function BuildStudy() {
   const caveat = GRADES[1][2].deductions[0];
   const A = build.mixture_a.eval, B = build.mixture_b.eval;
   return (
-    <section id="build" className="card window reveal" data-title="run_build.py — 536 synthetic records, mixture study">
+    <section id="build" className="card window reveal" data-title={`run_build.py — ${build.raw_count} synthetic records, mixture study`}>
       <div className="head">
         <div>
           <p className="eyebrow">Level 2 · Build</p>
@@ -298,14 +298,14 @@ function BuildStudy() {
         <Recorded src="level-2-build/results_build.json" />
       </div>
       <h3>What the generator wrote</h3>
-      <div className="stack" role="img" aria-label="Raw tier composition of the 536 records">
+      <div className="stack" role="img" aria-label={`Raw tier composition of the ${build.raw_count} records`}>
         {tiers.map(([k, v]) => <div key={k} style={{ flex: v, background: tierColor[k] }} title={`${k}: ${v}`} />)}
       </div>
       <div className="legend">{tiers.map(([k, v]) => <span key={k}><i style={{ background: tierColor[k] }} />{k.replace(/_/g, ' ')} {v}</span>)}</div>
       <div className="grid2" style={{ marginTop: 18 }}>
         <div>
           <h3>Stage by stage</h3>
-          <Funnel counts={BUILD_STAGES} names={STAGE_NAMES} total={build.raw_count} label="Build pipeline funnel from 536 to 192 records" />
+          <Funnel counts={BUILD_STAGES} names={STAGE_NAMES} total={build.raw_count} label={`Build pipeline funnel from ${build.raw_count} to ${build.after_decontamination} records`} />
           <p className="hint">Exact dedup removes {build.removed_exact.length} copies; near dedup {build.removed_near.length} ({build.raw_tier_counts.near_duplicate} near copies plus {build.removed_near.length - build.raw_tier_counts.near_duplicate} contaminated variants that are near copies of each other); quality removes {build.removed_quality_count}, all poison; decontamination the last {build.removed_contaminated.length}.</p>
         </div>
         <div>
@@ -350,7 +350,7 @@ function Playground() {
   const removed = [res.removed.exact, res.removed.near, res.removed.quality, res.removed.contaminated];
   const ci = wilson(res.e.correct, res.e.total);
   return (
-    <section id="playground" className="card window reveal" data-title="pipeline.js — the Learn pipeline, live on 536 records">
+    <section id="playground" className="card window reveal" data-title={`pipeline.js — the Learn pipeline, live on ${build.raw_count} records`}>
       <div className="head">
         <div>
           <p className="eyebrow">Live · pipeline playground</p>
@@ -470,7 +470,7 @@ function Decon() {
   const grams = [...benchmarkNgrams(PROMPTS, deepRes.ngram_n)].sort();
   const sub = DEEP.filter((r) => r.group === 'subthreshold');
   return (
-    <section id="decon" className="card window reveal" data-title="decontaminate.py — SynthBench-P28-12, 78 candidates">
+    <section id="decon" className="card window reveal" data-title={`decontaminate.py — ${deepRes.benchmark_name}, ${deepRes.deep_candidate_count} candidates`}>
       <div className="head">
         <div>
           <p className="eyebrow">Level 3 · Deep · decontamination ladder</p>
