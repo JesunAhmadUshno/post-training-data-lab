@@ -27,3 +27,8 @@ Measured fire counts on the Build and Deep sets, and the clean
 false-positive check, are in README.md and results_deep.json
 in this folder. These token rules are screens, not semantic
 quality judgments; see the failure modes in README.md.
+
+Naming note: "exact" in R07 means the Learn dedup key (lowercase,
+whitespace collapsed, instruction plus output), not raw string
+equality. Deep decontamination L1 "exact" is raw string equality.
+See the naming note in DEEP-SPEC.md.
