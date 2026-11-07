@@ -20,16 +20,17 @@ def word_ngrams(text, n=NGRAM_N):
     toks = tokens(text)
     return {" ".join(toks[i:i + n]) for i in range(len(toks) - n + 1)} if len(toks) >= n else set()
 
-def benchmark_ngrams(prompts):
+def benchmark_ngrams(prompts, n=NGRAM_N):
     out = set()
     for p in prompts:
-        out |= word_ngrams(p)
+        out |= word_ngrams(p, n)
     return out
 
-def decontaminate_levels(records, prompts):
+def decontaminate_levels(records, prompts, n=NGRAM_N, min_shared=NGRAM_MIN_SHARED):
+    """n and min_shared default to the v1.0 setting; run_sweep.py varies them."""
     bench_raw = list(prompts)
     bench_canon = {canonical(p) for p in prompts}
-    bench_grams = benchmark_ngrams(prompts)
+    bench_grams = benchmark_ngrams(prompts, n)
     kept1, removed_exact = [], []
     for r in records:
         if r["instruction"] in bench_raw:
@@ -44,8 +45,8 @@ def decontaminate_levels(records, prompts):
             kept2.append(r)
     kept3, removed_ngram, ngram_detail = [], [], {}
     for r in kept2:
-        shared = sorted(word_ngrams(r["instruction"]) & bench_grams)
-        if len(shared) >= NGRAM_MIN_SHARED:
+        shared = sorted(word_ngrams(r["instruction"], n) & bench_grams)
+        if len(shared) >= min_shared:
             removed_ngram.append(r["id"])
             ngram_detail[r["id"]] = shared
         else:
