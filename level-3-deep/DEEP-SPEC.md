@@ -48,6 +48,14 @@ a to z and 0 to 9), imported from level-1-learn/pipeline.py.
   shared 4-grams equals 1. L3 is applied to L2 survivors, and
   counts reported are additional removals at that level.
 
+Naming note (added after v1.0, no number changed): Learn and Deep
+use the word "exact" differently. Learn's decontamination stage
+(level-1-learn/pipeline.py, decontaminate) compares lowercased,
+whitespace-collapsed strings, so it sits between Deep L1 and Deep
+L2: it ignores case and spacing but not punctuation. Deep L1 is
+raw string equality; Deep L2 also strips punctuation. To compare
+the levels, read Learn "exact" as "case and space normalized".
+
 ## Deep candidate set, design (78 records, in this order)
 
 | Group | Ids | Count | Design |
