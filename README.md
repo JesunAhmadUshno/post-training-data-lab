@@ -1,5 +1,7 @@
 # post-training-data-lab
 
+Live dashboard: https://jesunahmadushno.github.io/post-training-data-lab/
+
 Post-training data engineering: curation, dedup, decontamination, synthetic data with filtering, data mixtures with measured downstream effect.
 
 Status: Learn DONE (v0.1, 2026-11-05). Build DONE (v0.5, 2026-11-05). Deep DONE (v1.0, 2026-11-05).
@@ -15,6 +17,8 @@ Project: P28. Fleet node: Dell R610. Wave: Waves 6 to 7.
 ## Level map
 
 - Level 1, Learn: the core idea, built small and clean, with a teaching path. DONE in v0.1.
+- Level 2, Build: a real working system other people can run. DONE in v0.5.
+- Level 3, Deep: benchmarks, optimization, evaluation, hard cases. DONE in v1.0.
 
 ## Learn (Level 1, DONE v0.1, 2026-11-05)
 
@@ -26,6 +30,7 @@ synthetic benchmark prompts, validated SFT conversion, and a
 12 train and 2 eval split with 0 leakage pairs. Measured table,
 datasheet, and run steps: level-1-learn/README.md. Grade: 8,700
 of 10,000, deductions named there.
+
 ## Build (Level 2, DONE v0.5, 2026-11-05)
 
 A seeded synthetic generator (536 records: 192 clean, 24 exact
@@ -37,8 +42,6 @@ the raw mix and 1.0 on the filtered mix over a held-out
 synthetic eval set of 80. Measured tables and grade:
 level-2-build/README.md. Grade: 8,800 of 10,000, deductions
 named there.
-- Level 2, Build: a real working system other people can run. DONE in v0.5.
-- Level 3, Deep: benchmarks, optimization, evaluation, hard cases. DONE in v1.0.
 
 ## Deep (Level 3, DONE v1.0, 2026-11-05)
 
@@ -54,6 +57,43 @@ Deep set, and 0 on clean records in both sets. Measured
 tables and grade: level-3-deep/README.md. Grade: 8,300 of
 10,000, deductions named there. The v1.1 backlog is in
 ROADMAP.md.
+
+## Follow-up studies (after v1.0)
+
+Cheap, standard library checks that answer the reviewer questions in
+docs/research-review.md. Run with `python3 level-2-build/run_dose.py`
+and `python3 level-3-deep/run_sweep.py`; tested in
+tests/test_studies_post_training_data.py.
+
+- Dose-response (level-2-build/results_dose.json): accuracy stays at
+  80 of 80 up to 40 poison records per category, drops to 60 of 80 at
+  48 (poison equals clean per category), and is 0 of 80 from 56 up.
+- Label versus quality ablation (same file): stub outputs with correct
+  labels leave accuracy at 80 of 80 even unfiltered; good outputs with
+  shifted labels give 0 of 80 even after filtering, because the quality
+  filter cannot see a wrong label. The v0.5 gain comes from the stub
+  output and the wrong label always travelling together.
+- Seeds 0 to 9 (same file): 0 of 80 raw and 80 of 80 filtered on every
+  seed; the seed only permutes topic ids.
+- N-gram sweep (level-3-deep/results_sweep.json): 3-grams at min 1
+  flag 51 of 58 non-contaminated records, because the benchmark 3-gram
+  "in simple terms" also ends every clean template; 4-grams catch 20 of
+  20 with 0 false flags;
+  8-grams and 13-grams catch only the 12 exact and normalized cases,
+  because the 12 benchmark prompts are too short to share long n-grams.
+
+## Live dashboard
+
+The site/ folder builds the dashboard at the link above. Every number
+on it is read from the committed level-*/results_*.json, jsonl and
+README files at build time, and `npm run build` first runs
+site/src/pipeline.check.mjs, which fails the build unless the browser
+ports of the pipeline, Naive Bayes model, decontamination ladder and
+rule set reproduce those committed results.
+
+```
+cd site && npm ci && npm run build
+```
 
 ## Benchmarks
 
