@@ -77,7 +77,11 @@ def _group_counts(records):
     return dict(sorted(out.items()))
 
 if __name__ == "__main__":
-    results, _, _ = run_deep()
+    results, deep, _ = run_deep()
+    # The 78 candidates as a data file, so other tools (the site) read data, not code.
+    with open(os.path.join(HERE, "deep_candidates.jsonl"), "w", encoding="utf-8") as fh:
+        for rec in deep:
+            fh.write(json.dumps(rec, sort_keys=True) + "\n")
     with open(os.path.join(HERE, "results_deep.json"), "w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=1, sort_keys=True)
         fh.write("\n")
