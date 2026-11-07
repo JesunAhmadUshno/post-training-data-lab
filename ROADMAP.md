@@ -30,6 +30,11 @@ below is done or claimed.
    performance measure for the n-gram index, and a MinHash
    near duplicate comparison next to R07.
 
+## Progress after v1.0
+
+- Item 2: first pass on the labelled synthetic Deep set, in level-3-deep/results_sweep.json (n 3, 4, 5, 8, 13 by min shared 1, 2, with caught, missed and false flags per setting). Still open: a real benchmark and natural negatives.
+- Item 5: partly addressed for the Build tiers, in level-2-build/results_dose.json (poison dose-response and a label versus quality ablation). The per-level Deep downstream run is still open.
+
 ## Held, unchanged
 
 - PyPI publishing: needs a new credential, Jesun tap only.
