@@ -34,3 +34,9 @@ jobs:
         run: python tests/test_deep_post_training_data.py
       - name: level 3 deep run
         run: python level-3-deep/run_deep.py
+      - name: follow-up study tests (dose, ablation, seeds, sweep)
+        run: python tests/test_studies_post_training_data.py
+      - name: follow-up study runs
+        run: python level-2-build/run_dose.py && python level-3-deep/run_sweep.py
+      - name: committed outputs unchanged by the runs
+        run: git diff --exit-code
