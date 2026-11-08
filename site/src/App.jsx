@@ -10,10 +10,8 @@ import learnRawText from '../../level-1-learn/learn_raw.jsonl?raw';
 import buildRawText from '../../level-2-build/synthetic_data.jsonl?raw';
 import evalText from '../../level-2-build/synthetic_eval.jsonl?raw';
 import deepText from '../../level-3-deep/deep_candidates.jsonl?raw';
-import learnReadme from '../../level-1-learn/README.md?raw';
-import buildReadme from '../../level-2-build/README.md?raw';
-import deepReadme from '../../level-3-deep/README.md?raw';
-import roadmap from '../../ROADMAP.md?raw';
+import readme from '../../README.md?raw';
+import report from '../../REPORT.md?raw';
 import {
   parseJsonl, parseLearnConfig, runPipeline, trainNB, evaluateNB, mixture, tokenSet, jaccard,
   wordNgrams, benchmarkNgrams, sweepPoint, ruleFires, dedupKey, wilson,
@@ -40,14 +38,9 @@ const POISON_MAX = Math.max(...dose.dose.map((d) => d.poison_per_category));
 const BUILD_STAGES = [build.raw_count, build.after_exact_dedup, build.after_near_dedup, build.after_quality, build.after_decontamination];
 const STAGE_NAMES = ['Raw', 'Exact dedup', 'Near dedup', 'Quality', 'Decontaminated'];
 
-// Grades and their named deductions, parsed from each level README.
-function parseGrade(md) {
-  const flat = md.replace(/\s+/g, ' ');
-  const m = flat.match(/## Grade ([\d,]+) of ([\d,]+)\. Deductions: (.*?) Total deductions ([\d,]+)\./);
-  const deductions = [...m[3].matchAll(/\s*(.*?)\s*\(minus ([\d,]+)\)[;.]?/g)].map((d) => ({ text: d[1], minus: d[2] }));
-  return { grade: m[1], of: m[2], deductions, total: m[4] };
-}
-const GRADES = [['Learn', 'level-1-learn/README.md', parseGrade(learnReadme)], ['Build', 'level-2-build/README.md', parseGrade(buildReadme)], ['Deep', 'level-3-deep/README.md', parseGrade(deepReadme)]];
+// Verdict and lifecycle stages, parsed from README.md (the same format as the other portfolio dashboards).
+const VERDICT = (readme.match(/^\*\*Verdict\.\*\* ([^.]+)/m) || [])[1];
+const STAGES = [...readme.matchAll(/^- (\w+): ([A-Z]+)(?: (\d{4}-\d{2}-\d{2}))?$/gm)].map((m) => m.slice(1));
 
 function parseRoadmap(md) {
   const sec = md.split('## v1.1 backlog')[1].split('\n## ')[0];
@@ -55,7 +48,7 @@ function parseRoadmap(md) {
   const progress = Object.fromEntries([...md.matchAll(/^- Item (\d+): (.*)$/gm)].map((m) => [m[1], m[2]]));
   return items.map((i) => ({ ...i, progress: progress[i.n] }));
 }
-const BACKLOG = parseRoadmap(roadmap);
+const BACKLOG = parseRoadmap(report);
 
 const TESTS = Object.entries(testFiles).map(([p, src]) => ({ file: p.split('/').pop(), count: (src.match(/^def test_/gm) || []).length })).sort((a, b) => a.file.localeCompare(b.file));
 
@@ -81,7 +74,7 @@ function MenuBar() {
       <a className="m" href={blob('level-1-learn/README.md')}>Learn</a>
       <a className="m" href={blob('level-2-build/README.md')}>Build</a>
       <a className="m" href={blob('level-3-deep/README.md')}>Deep</a>
-      <a className="m" href={blob('docs/research-review.md')}>Review</a>
+      <a className="m" href={blob('REPORT.md')}>Report</a>
       <span className="spacer" />
       <span className="status"><i /> Parity-checked build</span>
       <a href={REPO}>GitHub ↗</a>
@@ -285,7 +278,6 @@ function Confusion({ rec, title }) {
 function BuildStudy() {
   const tiers = Object.entries(build.raw_tier_counts);
   const tierColor = { clean: 'var(--good)', exact_duplicate: 'var(--primary)', near_duplicate: '#8a6cd6', low_quality_poison: 'var(--bad)', contaminated: 'var(--warn)' };
-  const caveat = GRADES[1][2].deductions[0];
   const A = build.mixture_a.eval, B = build.mixture_b.eval;
   return (
     <section id="build" className="card window reveal" data-title={`run_build.py — ${build.raw_count} synthetic records, mixture study`}>
@@ -327,7 +319,7 @@ function BuildStudy() {
         <Confusion rec={A} title={`Mixture A, raw: ${A.correct}/${A.total}`} />
         <Confusion rec={B} title={`Mixture B, filtered: ${B.correct}/${B.total}`} />
       </div>
-      <p className="note">Mixture A predicts the next category every time (code→factual, factual→language…), which is exactly the shift written into the poison labels. The Build README’s own caveat: “{caveat.text}” (minus {caveat.minus} in its grade).</p>
+      <p className="note">Mixture A predicts the next category every time (code→factual, factual→language…), which is exactly the shift written into the poison labels. REPORT.md’s own caveat: the template task is separable by design, so mixture B at 1.0 is a designed outcome, not a discovery.</p>
     </section>
   );
 }
@@ -638,7 +630,7 @@ function Limits() {
     <section id="limits" className="card window reveal" data-title="LIMITATIONS.md — threats to validity">
       <p className="eyebrow">Read before quoting a number</p>
       <h2>What this repo does not show.</h2>
-      <p className="sub">The full graded review, with what each open gap would need, is in <a href={blob('docs/research-review.md')}>docs/research-review.md</a>.</p>
+      <p className="sub">The full threats list, with what each open gap would need, is in <a href={blob('REPORT.md')}>REPORT.md</a>.</p>
       <div className="grid2" style={{ marginTop: 16 }}>
         {items.map(([t, d]) => (
           <div className="tile" key={t}><div className="head" style={{ marginBottom: 6 }}><h3>{t}</h3><span className="pill warn">Threat</span></div><p className="hint" style={{ margin: 0, fontSize: 13 }}>{d}</p></div>
@@ -652,9 +644,9 @@ function Evidence() {
   const fnTotal = TESTS.reduce((a, t) => a + t.count, 0);
   const scripts = TESTS.filter((t) => !t.count).length;
   return (
-    <section id="evidence" className="card window reveal" data-title="tests/ — evidence, grades and backlog">
+    <section id="evidence" className="card window reveal" data-title="tests/ — evidence, verdict and backlog">
       <p className="eyebrow">Evidence</p>
-      <h2>{fnTotal + scripts} checks, three self-graded levels, and a backlog that is <em>not done</em>.</h2>
+      <h2>{fnTotal + scripts} checks, a verdict of <em>{VERDICT}</em>, and a backlog that is <em>not done</em>.</h2>
       <div className="grid2" style={{ marginTop: 16 }}>
         <div>
           <h3>Test files, counted from <code>def test_</code> at build time</h3>
@@ -669,15 +661,12 @@ function Evidence() {
           </ol>
         </div>
         <div>
-          <h3>Grades on record, with their named deductions</h3>
-          {GRADES.map(([lvl, src, g]) => (
-            <details key={lvl} className="grade">
-              <summary><b>{lvl}</b> <span className="mono">{g.grade} / {g.of}</span> <span className="hint">−{g.total}</span></summary>
-              <ul>{g.deductions.map((d) => <li key={d.text}><span className="mono">−{d.minus}</span> {d.text}</li>)}</ul>
-              <a className="hint" href={blob(src)}>{src}</a>
-            </details>
-          ))}
-          <h3 style={{ marginTop: 18 }}>v1.1 backlog, from ROADMAP.md</h3>
+          <h3>Lifecycle, from README.md</h3>
+          <table style={{ marginTop: 8 }}>
+            <thead><tr><th>Stage</th><th>Status</th></tr></thead>
+            <tbody>{STAGES.map(([st, status, date]) => <tr key={st}><td>{st}</td><td><span className={`pill ${status === 'DONE' ? 'good' : status === 'OPEN' ? 'warn' : 'info'}`}>{status}</span>{date && <span className="hint"> {date}</span>}</td></tr>)}</tbody>
+          </table>
+          <h3 style={{ marginTop: 18 }}>v1.1 backlog, from REPORT.md</h3>
           <ul className="backlog">
             {BACKLOG.map((b) => <li key={b.n}><span className={`pill ${b.progress ? 'info' : 'warn'}`}>{b.progress ? 'first pass' : 'not done'}</span><div>{b.text}{b.progress && <div className="hint">{b.progress}</div>}</div></li>)}
           </ul>

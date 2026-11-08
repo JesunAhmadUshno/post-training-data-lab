@@ -117,28 +117,14 @@ python3 level-3-deep/run_deep.py
 python3 tests/test_deep_post_training_data.py
 python3 tests/test_build_post_training_data.py
 python3 tests/test_learn_post_training_data.py
-python3 tests/test_smoke.py
+python3 tests/test_layout.py
 ```
 
 CI note: the GitHub workflow now runs the smoke test and all
 three level test files on Python 3.12. That is the full local
 suite (31 checks: 10 Deep, 8 Build, 12 Learn, plus smoke).
 
-## Grade
+## Limits
 
-8,300 of 10,000. Deductions: the benchmark is a small
-synthetic 12 prompt set, not a real public benchmark, and no
-external benchmark contamination is measured (minus 600);
-the candidate set is synthetic and template or hand listed
-at 78 records, not a real training corpus (minus 400);
-decontamination is one n-gram size (4) at one threshold, with
-no 8-gram or 13-gram comparison and no MinHash or embedding
-method (minus 300); the quality rules are token and
-provenance screens, with no semantic, classifier, or human
-quality judgment (minus 250); no downstream training effect
-of the Deep decontamination levels is measured, that effect
-was the Build level study (minus 150). Total deductions 1,700.
-
-## Next
-
-The v1.1 backlog is in the repo root ROADMAP.md.
+The limits of this stage, and the open work, are in the repo root
+REPORT.md (Threats to validity, v1.1 backlog).

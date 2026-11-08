@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "post-training-data-lab: a measured post-training data curation pipeline (dedup, quality filtering, decontamination) on synthetic data"
+authors:
+  - family-names: Ushno
+    given-names: Jesun Ahmad
+repository-code: "https://github.com/JesunAhmadUshno/post-training-data-lab"
+license: Apache-2.0
+date-released: 2026-11-05

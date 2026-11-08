@@ -26,21 +26,19 @@ Learn: a standard library curation pipeline on a synthetic
 teaching set of 20 raw records: exact dedup, near dedup at
 Jaccard 0.8, quality filters, decontamination against 2
 synthetic benchmark prompts, validated SFT conversion, and a
-12 train and 2 eval split with 0 leakage pairs. Grade 8,700
-of 10,000.
+12 train and 2 eval split with 0 leakage pairs.
 
 Build: a seeded synthetic generator (536 records: 192 clean,
 24 exact duplicates, 24 near duplicates, 288 low-quality
 poison, 8 contaminated) filtered through the Learn pipeline
 to 192 clean records, and a mixture study with the same
 multinomial Naive Bayes classifier (instruction tokens, alpha
-1.0) on a held-out synthetic eval set of 80. Grade 8,800 of
-10,000.
+1.0) on a held-out synthetic eval set of 80.
 
 Deep: a decontamination report against SynthBench-P28-12 at
 three match levels over 78 synthetic candidates, plus the
 reusable quality rule set post-training-data-quality-rules
-v1.0.0 (8 rules in rules.json). Grade 8,300 of 10,000.
+v1.0.0 (8 rules in rules.json).
 
 ## The main result
 
@@ -105,7 +103,7 @@ it.
 
 ## Future
 
-The v1.1 backlog is ROADMAP.md in the repo: decontamination
+The v1.1 backlog is in REPORT.md in the repo: decontamination
 against a real public benchmark under its license, an n-gram
 size and threshold sweep, output and input field
 decontamination with a paraphrase tier, semantic quality

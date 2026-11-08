@@ -91,7 +91,7 @@ rate on a real benchmark or corpus is claimed.
   task, not SFT training of a language model, and no
   downstream effect of the Deep levels is measured.
 - No real public benchmark run: that run, under its license,
-  is v1.1 item 1 in ROADMAP.md and is the natural next step
+  is v1.1 item 1 in REPORT.md and is the natural next step
   before any venue submission.
 
 ## Venue and submission
