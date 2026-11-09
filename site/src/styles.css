@@ -276,10 +276,6 @@ svg.heat { min-width: 420px; max-width: 640px; }
 .grid2 svg.chart:not(.conf) text { font-size: 15px; }
 svg.conf { max-width: 340px; }
 tr.sel td { background: var(--primary-pale); font-weight: 700; }
-details.grade { background: var(--surface-strong); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-top: 8px; font-size: 13px; }
-details.grade summary { cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
-details.grade ul { padding-left: 0; list-style: none; display: grid; gap: 6px; margin: 10px 0; }
-details.grade li .mono { color: var(--bad); margin-right: 4px; }
 .backlog { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; font-size: 13px; }
 .backlog li { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: start; }
 .backlog .pill { justify-content: center; }

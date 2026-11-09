@@ -22,8 +22,7 @@ step.
 One scope fact, stated plainly. All data in this project is synthetic, generated or hand listed by this project and labelled synthetic in every file. No real data was used, downloaded, or claimed, and no external benchmark items were downloaded or claimed. The Deep benchmark is the project own synthetic benchmark, SynthBench-P28-12.
 
 Status: v1.0, 2026-11-05. Learn, Build, and Deep are done.
-Grades on the house 10,000 scale: Learn 8,700, Build 8,800,
-Deep 8,300. Total tests: 31 checks (12 Learn, 8 Build, 10
+Total tests: 31 checks (12 Learn, 8 Build, 10
 Deep, plus the scaffold smoke test).
 
 ## Results (synthetic data only)

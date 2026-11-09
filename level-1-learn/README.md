@@ -78,21 +78,10 @@ only. Full record: results_learn.json in this folder.
 ```bash
 python3 level-1-learn/run_learn.py
 python3 tests/test_learn_post_training_data.py
-python3 tests/test_smoke.py
+python3 tests/test_layout.py
 ```
 
-## Grade
+## Limits
 
-8,700 of 10,000. Deductions: synthetic teaching scale only, tiny
-20 record set, no real curation claim (minus 500); near dedup is
-instruction token Jaccard only, no output check, no MinHash or
-embedding method (minus 300); decontamination is exact match
-only, no n-gram overlap against a real benchmark (minus 250);
-quality filters are three token rules, no language, toxicity, or
-classifier filter (minus 150); split is positional, no stratified
-or shuffled comparison (minus 100). Total deductions 1,300.
-
-## Next
-
-Build (Level 2): synthetic data generation with filtering and a
-data mixture study with a measured downstream effect, per SPEC.md.
+The limits of this stage, and the open work, are in the repo root
+REPORT.md (Threats to validity, v1.1 backlog).

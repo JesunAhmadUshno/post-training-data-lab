@@ -96,24 +96,10 @@ contaminated tokens do not occur in the eval templates).
 python3 level-2-build/run_build.py
 python3 tests/test_build_post_training_data.py
 python3 tests/test_learn_post_training_data.py
-python3 tests/test_smoke.py
+python3 tests/test_layout.py
 ```
 
-## Grade
+## Limits
 
-8,800 of 10,000. Deductions: the template task is separable by
-design, so mixture B at 1.0 is a designed outcome, not a
-discovery (minus 400); the downstream model is an
-instruction-only Naive Bayes proxy, not SFT training of a
-language model (minus 300); the poison share (288 of 536) is a
-stress proportion, not a natural data mix (minus 200); the eval
-set is synthetic with the same templates as training, only the
-topic tokens held out (minus 200); the duplicate and
-contaminated tiers show no separate downstream effect in this
-design, so the study isolates the quality and label flaw only
-(minus 100). Total deductions 1,200.
-
-## Next
-
-Deep (Level 3): a decontamination report against a named
-benchmark and a reusable data quality rule set, per SPEC.md.
+The limits of this stage, and the open work, are in the repo root
+REPORT.md (Threats to validity, v1.1 backlog).

@@ -23,7 +23,6 @@ https://github.com/JesunAhmadUshno/post-training-data-lab/releases
   sum 127.
 - Tests: 12 hand-computed Learn tests plus the scaffold smoke
   test, all passing.
-- Level grade: 8,700 of 10,000.
 - Release: https://github.com/JesunAhmadUshno/post-training-data-lab/releases/tag/v0.1
 
 ## v0.5, Build (2026-11-05)
@@ -41,7 +40,6 @@ https://github.com/JesunAhmadUshno/post-training-data-lab/releases
   accuracy 1.0 (80 of 80) on the held-out synthetic eval set.
 - Tests: 8 hand-computed Build tests, 21 checks in total at
   that point with Learn and smoke, all passing.
-- Level grade: 8,800 of 10,000.
 - Release: https://github.com/JesunAhmadUshno/post-training-data-lab/releases/tag/v0.5
 
 ## v1.0, Learn, Build, and Deep (2026-11-05)
@@ -51,7 +49,7 @@ https://github.com/JesunAhmadUshno/post-training-data-lab/releases
   and the reusable quality rule set
   post-training-data-quality-rules v1.0.0 (8 rules in
   rules.json, documented in RULES.md), plus written failure
-  modes. The rest of the v2 Deep scope is named in ROADMAP.md
+  modes. The rest of the v2 Deep scope is named in REPORT.md
   as the v1.1 backlog.
 - Measured result: 78 synthetic candidates, 72 after exact,
   66 after normalized exact, 58 after word 4-gram overlap;
@@ -61,7 +59,6 @@ https://github.com/JesunAhmadUshno/post-training-data-lab/releases
   records in both sets.
 - Tests: 10 hand-computed Deep tests, 31 checks in total with
   Learn, Build, and smoke, all passing.
-- Level grade: 8,300 of 10,000.
 - Release: https://github.com/JesunAhmadUshno/post-training-data-lab/releases/tag/v1.0
 
 ## Held channels

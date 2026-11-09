@@ -28,7 +28,7 @@ cd post-training-data-lab
 Optional smoke check, before the levels:
 
 ```text
-python tests/test_smoke.py
+python tests/test_layout.py
 ```
 
 Expected: scaffold smoke test: PASS, 8 files present.
@@ -87,7 +87,7 @@ deterministically.
 ## Step 4: Full suite
 
 ```text
-python tests/test_smoke.py
+python tests/test_layout.py
 python tests/test_learn_post_training_data.py
 python tests/test_build_post_training_data.py
 python tests/test_deep_post_training_data.py

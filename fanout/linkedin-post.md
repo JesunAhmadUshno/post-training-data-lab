@@ -42,8 +42,7 @@ quality rule set (8 rules, v1.0.0) fired 600 events on the
 Build set and 19 on the Deep set, and 0 on clean records in
 both sets.
 
-Grades, house scale: Learn 8,700, Build 8,800, Deep 8,300 of
-10,000. 31 checks in total, all passing. The v1.1 list is
+31 checks in total, all passing. The v1.1 list is
 honest about what is missing: a real public benchmark run
 under its license, an n-gram sweep, and semantic quality
 rules. None of that is claimed here.

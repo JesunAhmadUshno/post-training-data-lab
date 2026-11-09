@@ -81,6 +81,12 @@ cmp(deep, deepRes.deep_rules);
 cmp(raw.filter((r) => r.tier === 'clean'), deepRes.build_clean_rules);
 cmp(deep.filter((r) => r.group === 'clean'), deepRes.deep_clean_rules);
 
+// 9. The text the page parses: README verdict and eight lifecycle stages, REPORT backlog items.
+const readme = read('README.md');
+assert.match(readme, /^\*\*Verdict\.\*\* [^.]+/m, 'README.md has no Verdict line');
+assert.equal([...readme.matchAll(/^- (\w+): ([A-Z]+)(?: (\d{4}-\d{2}-\d{2}))?$/gm)].length, 8, 'README.md lifecycle must list 8 stages');
+assert.match(read('REPORT.md'), /^## v1\.1 backlog\n\n1\. /m, 'REPORT.md has no v1.1 backlog list');
+
 console.log('pipeline parity ok', {
   learn: L.counts, build: B.counts, nbA: build.mixture_a.eval.correct, nbB: build.mixture_b.eval.correct,
   dosePoints: dose.dose.length, deepSurvivors: D.survivors.length, sweepCells: sweep.grid.length,

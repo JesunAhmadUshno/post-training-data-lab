@@ -4,6 +4,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+permissions:
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -20,23 +22,17 @@ jobs:
         run: python -m pip install ruff
       - name: Lint (ruff, scope in ruff.toml)
         run: ruff check .
-      - name: scaffold smoke test
-        run: python tests/test_smoke.py
-      - name: level 1 learn tests
+      - name: layout check (required files, no public grade)
+        run: python tests/test_layout.py
+      - name: baseline (level 1) tests
         run: python tests/test_learn_post_training_data.py
-      - name: level 1 learn run
-        run: python level-1-learn/run_learn.py
-      - name: level 2 build tests
+      - name: build (level 2) tests
         run: python tests/test_build_post_training_data.py
-      - name: level 2 build run
-        run: python level-2-build/run_build.py
-      - name: level 3 deep tests
+      - name: deep (level 3) tests
         run: python tests/test_deep_post_training_data.py
-      - name: level 3 deep run
-        run: python level-3-deep/run_deep.py
       - name: follow-up study tests (dose, ablation, seeds, sweep)
         run: python tests/test_studies_post_training_data.py
-      - name: follow-up study runs
-        run: python level-2-build/run_dose.py && python level-3-deep/run_sweep.py
-      - name: committed outputs unchanged by the runs
+      - name: results reproduced from the code, byte for byte
+        run: ./reproduce.sh
+      - name: committed files unchanged by the runs
         run: git diff --exit-code
