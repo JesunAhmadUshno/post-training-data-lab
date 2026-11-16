@@ -119,7 +119,7 @@ const Live = ({ match }) => match
 export default function App() {
   useReveal();
   return (
-    <div className="wrap">
+    <div className="wrap"><a className="skip" href="#top">Skip to content</a>
       <MenuBar />
       <div className="glow" aria-hidden="true" />
       <Hero />
@@ -136,7 +136,7 @@ export default function App() {
       <footer>
         <p>All data is synthetic, generated or hand listed by this project. Every number on this page is read from the repo’s <code>level-*/results_*.json</code>, jsonl and README files at build time, or computed live in your browser from those files by ports that the build checks against the Python.</p>
         <p><a href={REPO}>Repository</a> · <a href={`${REPO}/releases`}>Releases</a> · <a href={blob('LICENSE')}>License</a>: code Apache-2.0, tutorials CC BY 4.0</p>
-      </footer>
+      <nav className="support" aria-label="Support this work"><a href="https://github.com/sponsors/JesunAhmadUshno">Sponsor this work</a><a href="https://github.com/sponsors/JesunAhmadUshno">Donate</a><a href="https://buymeacoffee.com/jesun">Buy Me a Coffee</a><a href="https://calendly.com/jesunahmadushno/30min">Work with me</a></nav></footer>
     </div>
   );
 }
@@ -146,7 +146,7 @@ function Hero() {
   const cleanFires = deepRes.build_clean_rules.total_fire_events + deepRes.deep_clean_rules.total_fire_events;
   const ciA = dose.wilson95.mixture_a, ciB = dose.wilson95.mixture_b;
   return (
-    <header className="card hero window" id="top" data-title="README.md — post-training-data-lab">
+    <header className="card hero window" id="top" data-title="README.md - post-training-data-lab">
       <div className="head">
         <p className="eyebrow">Synthetic post-training data · three levels · standard-library Python</p>
         <span className="pill warn">● designed outcome, read the caveat</span>
@@ -204,7 +204,7 @@ function LearnFunnel() {
     return best;
   };
   return (
-    <section id="learn" className="card window reveal" data-title={`pipeline.py — Learn level, ${learn.raw_count} teaching records`}>
+    <section id="learn" className="card window reveal" data-title={`pipeline.py - Learn level, ${learn.raw_count} teaching records`}>
       <div className="head">
         <div>
           <p className="eyebrow">Level 1 · Learn</p>
@@ -280,7 +280,7 @@ function BuildStudy() {
   const tierColor = { clean: 'var(--good)', exact_duplicate: 'var(--primary)', near_duplicate: '#8a6cd6', low_quality_poison: 'var(--bad)', contaminated: 'var(--warn)' };
   const A = build.mixture_a.eval, B = build.mixture_b.eval;
   return (
-    <section id="build" className="card window reveal" data-title={`run_build.py — ${build.raw_count} synthetic records, mixture study`}>
+    <section id="build" className="card window reveal" data-title={`run_build.py - ${build.raw_count} synthetic records, mixture study`}>
       <div className="head">
         <div>
           <p className="eyebrow">Level 2 · Build</p>
@@ -342,7 +342,7 @@ function Playground() {
   const removed = [res.removed.exact, res.removed.near, res.removed.quality, res.removed.contaminated];
   const ci = wilson(res.e.correct, res.e.total);
   return (
-    <section id="playground" className="card window reveal" data-title={`pipeline.js — the Learn pipeline, live on ${build.raw_count} records`}>
+    <section id="playground" className="card window reveal" data-title={`pipeline.js - the Learn pipeline, live on ${build.raw_count} records`}>
       <div className="head">
         <div>
           <p className="eyebrow">Live · pipeline playground</p>
@@ -365,7 +365,7 @@ function Playground() {
             <thead><tr><th>Stage</th><th>Kept</th><th>Recorded</th><th>Removed, by tier</th></tr></thead>
             <tbody>
               {STAGE_NAMES.map((n, i) => (
-                <tr key={n}><td>{n}</td><td><b>{res.counts[i]}</b></td><td className={res.counts[i] === BUILD_STAGES[i] ? 'ok' : 'no'}>{BUILD_STAGES[i]}</td><td className="hint">{i ? tierOf(removed[i - 1]) : '—'}</td></tr>
+                <tr key={n}><td>{n}</td><td><b>{res.counts[i]}</b></td><td className={res.counts[i] === BUILD_STAGES[i] ? 'ok' : 'no'}>{BUILD_STAGES[i]}</td><td className="hint">{i ? tierOf(removed[i - 1]) : '-'}</td></tr>
               ))}
             </tbody>
           </table>
@@ -399,7 +399,7 @@ function MixtureLab() {
   const atEven = dose.dose.find((d) => d.poison_per_category === build.mixture_b.label_counts[CATS[0]]);
   const seedsOk = dose.seeds.filter((s) => s.mixture_a_correct === build.mixture_a.eval.correct && s.mixture_b_correct === build.mixture_b.eval.correct).length;
   return (
-    <section id="mixture" className="card window reveal" data-title="model.js — Naive Bayes, retrained in your browser">
+    <section id="mixture" className="card window reveal" data-title="model.js - Naive Bayes, retrained in your browser">
       <div className="head">
         <div>
           <p className="eyebrow">Live · mixture lab</p>
@@ -462,7 +462,7 @@ function Decon() {
   const grams = [...benchmarkNgrams(PROMPTS, deepRes.ngram_n)].sort();
   const sub = DEEP.filter((r) => r.group === 'subthreshold');
   return (
-    <section id="decon" className="card window reveal" data-title={`decontaminate.py — ${deepRes.benchmark_name}, ${deepRes.deep_candidate_count} candidates`}>
+    <section id="decon" className="card window reveal" data-title={`decontaminate.py - ${deepRes.benchmark_name}, ${deepRes.deep_candidate_count} candidates`}>
       <div className="head">
         <div>
           <p className="eyebrow">Level 3 · Deep · decontamination ladder</p>
@@ -508,7 +508,7 @@ function Sweep() {
   const rec = sweep.grid.find((g) => g.n === n && g.min_shared === min);
   const isV1 = n === deepRes.ngram_n && min === deepRes.ngram_min_shared;
   return (
-    <section id="sweep" className="card window reveal" data-title="sweep.js — n-gram size and threshold, live">
+    <section id="sweep" className="card window reveal" data-title="sweep.js - n-gram size and threshold, live">
       <div className="head">
         <div>
           <p className="eyebrow">Live exploration · n-gram sweep</p>
@@ -563,7 +563,7 @@ function RuleLinter() {
   const max = Math.max(...sets.flatMap(([, , r]) => Object.values(r.counts)));
   const W = 420, c = 36, l = 150, t = 30;
   return (
-    <section id="rules" className="card window reveal" data-title="rules.json — quality rule set, live linter">
+    <section id="rules" className="card window reveal" data-title="rules.json - quality rule set, live linter">
       <div className="head">
         <div>
           <p className="eyebrow">Live · rule linter</p>
@@ -627,7 +627,7 @@ function Limits() {
     ['Uncertainty is mostly moot', `The outcome does not vary across ${dose.seeds.length} seeds because the seed only permutes topic ids. The Wilson intervals describe ${N_EVAL} eval records, not sampling of a real population.`],
   ];
   return (
-    <section id="limits" className="card window reveal" data-title="LIMITATIONS.md — threats to validity">
+    <section id="limits" className="card window reveal" data-title="LIMITATIONS.md - threats to validity">
       <p className="eyebrow">Read before quoting a number</p>
       <h2>What this repo does not show.</h2>
       <p className="sub">The full threats list, with what each open gap would need, is in <a href={blob('REPORT.md')}>REPORT.md</a>.</p>
@@ -644,7 +644,7 @@ function Evidence() {
   const fnTotal = TESTS.reduce((a, t) => a + t.count, 0);
   const scripts = TESTS.filter((t) => !t.count).length;
   return (
-    <section id="evidence" className="card window reveal" data-title="tests/ — evidence, verdict and backlog">
+    <section id="evidence" className="card window reveal" data-title="tests/ - evidence, verdict and backlog">
       <p className="eyebrow">Evidence</p>
       <h2>{fnTotal + scripts} checks, a verdict of <em>{VERDICT}</em>, and a backlog that is <em>not done</em>.</h2>
       <div className="grid2" style={{ marginTop: 16 }}>
